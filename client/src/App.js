@@ -11,6 +11,8 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
+
+//Objects that handle the different tabs which exist
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
@@ -35,36 +37,61 @@ import BookmarksIcon from '@mui/icons-material/Bookmarks'; //Bookmarks Tab
 
 //TODO implement functionality into buttons based on their respective keys
 const ButtonsReport = [
-  <Button key="Set Template" startIcon={<DescriptionIcon />}>Set Template (Docx or Doc)</Button>,
-  <Button key="Load Default" startIcon={<DescriptionIcon  />}>Load Template</Button>,
+  <Button key="New Report" startIcon={<DriveFolderUploadIcon />}>New Report</Button>,
   <Button key="Load Report" startIcon={<DriveFolderUploadIcon />}>Load Report</Button>,
-  <Button key="Save Report" startIcon={<SaveIcon />} >Save Report As</Button>,
+  <Button key="Save Report" startIcon={<SaveIcon />} >Save Report</Button>,
+  <Button key="Load Report Template" startIcon={<DriveFolderUploadIcon  />}>Load Report Template</Button>,
+  <Button key="Save Report Template" startIcon={<SaveIcon />} >Save Report Template</Button>,
+  <Button key="Set Default Report Template" startIcon={<DescriptionIcon />}>Set Default Report Template</Button>,
+];
+
+
+const SectionHeading = [
+ 
+  <Button key="Add Heading" startIcon={<AddCircleOutlineIcon />}>Add Section Heading</Button>,
+  <Button key="Remove Heading" startIcon={<DeleteIcon />} >Remove Section Heading</Button>,
+  <Button key="Edit Heading" startIcon={<EditIcon />}>Edit Section Heading</Button>,
+  <Button key="Import Heading" startIcon={<ImportExportIcon  />}>Import Section Headings</Button>,
 ];
 
 const ButtonsVulnDatabank = [
-  <Button key="Load Vulns" startIcon={<ImportExportIcon  />}>Import Vuln Databank</Button>,
-  <Button key="Add Vulns" startIcon={<AddCircleOutlineIcon />}>Add New Vulnerability</Button>,
-  <Button key="Add Vulns" startIcon={<AddCircleOutlineIcon />}>Insert Vulnerability From Databank</Button>
+  <Button key="Load Vulns" startIcon={<ImportExportIcon  />}>Import Vulnerability Databank</Button>,
+  <Button key="Add Vulns" startIcon={<AddCircleOutlineIcon />}>Add New Vulnerability To Databank</Button>,
+  <Button key="Add Vulns" startIcon={<AddCircleOutlineIcon />}>Insert Vulnerability From Databank</Button>,
+  <Button key="Load Vuln" startIcon={<DriveFolderUploadIcon />}>Load Vulnerability Databank</Button>,
+  <Button key="Save Vuln" startIcon={<SaveIcon />} >Save Vulnerability Databank</Button>
 ];
 
 const AuditLog = [
   <Button key="Add Audit" startIcon={<AddCircleOutlineIcon />}>Add Audit Entry</Button>,
   <Button key="Remove Audit" startIcon={<DeleteIcon />}>Remove Audit Entry</Button>,
   <Button key="Edit Audit" startIcon={<EditIcon />}>Edit Audit Entry</Button>,
-  <Button key="EImport Audit" startIcon={<ImportExportIcon />}>Import Audit Log</Button>,
-]
-
-
-const SectionHeading = [
-  <Button key="Add Heading" startIcon={<AddCircleOutlineIcon />}>Add Section Heading</Button>,
-  <Button key="Remove Heading" startIcon={<DeleteIcon />} >Remove Section Heading</Button>,
-  <Button key="Edit Heading" startIcon={<EditIcon />}>Edit Section Heading</Button>,
-  <Button key="Import Heading" startIcon={<ImportExportIcon  />}>Import Headings</Button>,
-]
+  <Button key="Import Audit" startIcon={<ImportExportIcon />}>Import Audit Log</Button>,
+];
 
 const ComplianceFlag = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
-//<Checkbox {...ComplianceFlag} disableRipple /> 
+//This handles the tabs which will appear for teach section
+function CustomTabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
 
 //TODO Implement all objects required to finish UI in design phase
 //TODO Plan out where the layout will go and how it will look
@@ -83,7 +110,9 @@ function App() {
       <AppBar position='sticky'>
       <Toolbar variant='dense'>
       <Typography variant='h6' component='div' fontStyle={'italic'} sx={{ flexGrow: 1}}>Report Writing Tool</Typography>
+      <Button key="Export Vulns to Jira" startIcon={<FileDownloadIcon />} variant='contained' disableElevation >Export Vulnerabilities To Jira</Button>
       <Button key="Export Report" startIcon={<FileDownloadIcon />} variant='contained' disableElevation >Export Report (PDF)</Button>
+      
       </Toolbar>
       </AppBar>
     </Box>
@@ -91,13 +120,12 @@ function App() {
          margin={1}
          direction={'column'}>
 
-
 <Grid item>
-<Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
+<Box sx={{ width: '100%', bgcolor: 'background.paper'}}>
       <Tabs value={value} onChange={handleChange} centered>
-        <Tab icon={<DescriptionIcon />} label="Report" />
-        <Tab icon={<CoronavirusIcon />} label="Vulnerabilities" />
-        <Tab icon={<BookmarksIcon />} label="Audit Log" />
+        <Tab icon={<DescriptionIcon />} value={1} label="Report" />
+        <Tab icon={<CoronavirusIcon />} value={2} label="Vulnerabilities" />
+        <Tab icon={<BookmarksIcon />} value={3} label="Audit Log" />
       </Tabs>
     </Box>
     </Grid>
@@ -152,7 +180,6 @@ function App() {
           {AuditLog}   
         </ButtonGroup>
         </Grid>
-            
           </Grid>
         </React.Fragment>
 
