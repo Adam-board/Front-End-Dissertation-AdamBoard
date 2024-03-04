@@ -29,6 +29,7 @@ import EditIcon from '@mui/icons-material/Edit'; //Edit Button
 import ImportExportIcon from '@mui/icons-material/ImportExport'; //Import Export Button
 import CoronavirusIcon from '@mui/icons-material/Coronavirus'; //Vuln Tab
 import BookmarksIcon from '@mui/icons-material/Bookmarks'; //Bookmarks Tab
+import { blue } from '@mui/material/colors';
 
 
 
@@ -82,14 +83,29 @@ function CustomTabPanel(props) {
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
+      color='primary'
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 3}}>
           <Typography>{children}</Typography>
         </Box>
       )}
     </div>
   );
+}
+
+CustomTabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
 }
 
 
@@ -123,12 +139,15 @@ function App() {
 <Grid item>
 <Box sx={{ width: '100%', bgcolor: 'background.paper'}}>
       <Tabs value={value} onChange={handleChange} centered>
-        <Tab icon={<DescriptionIcon />} value={1} label="Report" />
-        <Tab icon={<CoronavirusIcon />} value={2} label="Vulnerabilities" />
-        <Tab icon={<BookmarksIcon />} value={3} label="Audit Log" />
+        <Tab icon={<DescriptionIcon />} value={0} label="Report" />
+        <Tab icon={<CoronavirusIcon />} value={1} label="Vulnerabilities" />
+        <Tab icon={<BookmarksIcon />} value={2} label="Audit Log" />
       </Tabs>
     </Box>
     </Grid>
+<Box sx={{bgcolor: 'background.paper', display: 'inline-flex', flexDirection: 'row', alignContent: 'stretch' , justifyContent: 'flex-start', flexWrap: 'nowrap', width: '100%'}}>
+
+<Box sx={{bgcolor: 'ActiveCaption', justifyContent: 'center', alignItems: 'center'}}>
       <Grid item width={355}>
       <ButtonGroup
           orientation="vertical"
@@ -180,7 +199,27 @@ function App() {
           {AuditLog}   
         </ButtonGroup>
         </Grid>
+        </Box>
+        
+        
+     <Box sx={{bgcolor: 'ButtonHighlight', justifyContent: 'center', alignItems: 'center',  width: '85%', marginLeft: 1}}>
+     <CustomTabPanel value={value} index={0}>
+      This Section allows the user to write up sections of the report 
+      
+      </CustomTabPanel>
+      
+      <CustomTabPanel value={value} index={1}>
+        This section allows the user to insert Vulnerabilities from either the vulnerability databank or write the vulnerabilities new themselves
+      </CustomTabPanel>
+     
+     <CustomTabPanel value={value} index={2}>
+        This section is an audit log that can be attached to the vulnerabilities so an external user could see the tools used to discover the vulnerability
+      </CustomTabPanel>
+
+      </Box>
+        </Box>
           </Grid>
+          
         </React.Fragment>
 
   );
