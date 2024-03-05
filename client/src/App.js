@@ -218,6 +218,10 @@ function a11yProps(index) {
 function App() {
   const [value, setValue] = React.useState(0);
 
+  const [] = React.useState('');
+  const [] = React.useState('');
+  const [] = React.useState('');
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
