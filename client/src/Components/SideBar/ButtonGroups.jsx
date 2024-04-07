@@ -8,7 +8,7 @@ import Grid from '@mui/material/Grid'; // Grid version 1
 export default function CustButtonGroup(props) {
  const {Num,  value, group} = props
 
-return(<Grid item width={370}>
+return(<Grid item>
     <ButtonGroup 
         disabled={value !==  Num}
         orientation="vertical"

@@ -1,9 +1,5 @@
-
-//If making a comment inside of the React Fragment, use this {/* */}
-
 //The main imports to ensure everything is treated as React 
 import * as React from 'react';
-
 import Grid from '@mui/material/Grid'; // Grid version 1
 
 //All icons that are being imported for this project
@@ -14,14 +10,14 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'; // Add 
 import DeleteIcon from '@mui/icons-material/Delete'; //Remove Button
 import ImportExportIcon from '@mui/icons-material/ImportExport'; //Import Export Button
 
-
 //Custom components imported to make everything neater
-import CustButtonGroup from './Components/ButtonGroups';
-import CustButton from './Components/CustButton';
-import CustTabPanel from './Components/TabPanel';
-import CustToolBarButtons from './Components/CustToolBarButtons';
-import CustToolBar from './Components/CustToolBar';
-import CustTabs from './Components/CustTabs';
+import CustButtonGroup from './Components/SideBar/ButtonGroups';
+import CustButton from './Components/SideBar/CustButton';
+import CustTabPanel from './Components/Tabs/TabPanel';
+import CustToolBarButtons from './Components/ToolBar/CustToolBarButtons';
+import CustToolBar from './Components/ToolBar/CustToolBar';
+import CustTabs from './Components/Tabs/CustTabs';
+import CustForm from './Components/Tabs/CustForm';
 
 //Contains all imports for Draft.Js
 import ReactDOM from 'react-dom';
@@ -53,55 +49,43 @@ const ButtonsVulnDatabank = [
 const AuditLog = [<CustButton  startIcon={<ImportExportIcon />} tooltip={Desc.ImportAuditLog} arrowPlacement="right" >Import Audit Log</CustButton>,];
 
 
-//<IconButton aria-label='delete' color='error' ><DeleteIcon /> </IconButton>
 
-function App() {
-  
+
+function App() {  
   const [value, setValue] = React.useState('');
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+    setValue(newValue);};
 
-  return (
-    <React.Fragment>
+  return(
+  <React.Fragment>
       <CustToolBar>
-      <CustToolBarButtons arrowPlacement='bottom-end' tooltip={Desc.ExportVulnToJira}>Export Vulnerabilities To Jira</CustToolBarButtons>
-      <CustToolBarButtons arrowPlacement='bottom-start' tooltip={Desc.ExportReport}>Export Report (Word) </CustToolBarButtons>
+        <CustToolBarButtons arrowPlacement='bottom-end' tooltip={Desc.ExportVulnToJira}>Export Vulnerabilities To Jira</CustToolBarButtons>
+        <CustToolBarButtons arrowPlacement='bottom-start' tooltip={Desc.ExportReport}>Export Report (Word) </CustToolBarButtons>
       </CustToolBar>
       <CustTabs onChange={handleChange} value={value}></CustTabs>
 
-
-<Grid container
-      sx={{
-        bgcolor: 'orange',
-        display: 'inline-flex', 
-        alignContent: 'stretch' , 
-        justifyContent: 'flex-start'}}>
-
-
-
-
-{/* <Box sx={{display: 'inline-flex', flexDirection: 'row', alignContent: 'stretch' , justifyContent: 'flex-start', flexWrap: 'nowrap', width: '100%'}}> */}
+    <Grid container spacing={4}
+      sx={{ 
+        flexGrow: 1}}>
 
 {/* This section of code handles the buttons displayed on the left sidebar */}
 
-<Grid item sx={{bgcolor: 'green'}}>
-  <CustButtonGroup Num={0} value={value} group={ButtonsReport}>Report Options</CustButtonGroup>
-  <CustButtonGroup Num={1} value={value} group={ButtonsVulnDatabank}>Vulnerability Options</CustButtonGroup>
-  <CustButtonGroup Num={2} value={value} group={AuditLog}>Audit Options</CustButtonGroup>
-</Grid>
+      <Grid item xs>
+        <CustButtonGroup Num={0} value={value} group={ButtonsReport}>Report Options</CustButtonGroup>
+        <CustButtonGroup Num={1} value={value} group={ButtonsVulnDatabank}>Vulnerability Options</CustButtonGroup>
+        <CustButtonGroup Num={2} value={value} group={AuditLog}>Audit Options</CustButtonGroup>
+      </Grid>
 
+{/* This section of code handles the tabs that appear for creating new headings! */}
 
+      <Grid item xs={10}>
+        <CustTabPanel value={value} index={0}> <CustForm />  </CustTabPanel>
+        <CustTabPanel value={value} index={1}> <CustForm /> </CustTabPanel>
+        <CustTabPanel value={value} index={2}> <CustForm /> </CustTabPanel>
+      </Grid>
 
-     <CustTabPanel value={value} index={0}><CustButtonGroup Num={0} value={value} group={ButtonsReport}>Report Options</CustButtonGroup></CustTabPanel>
-     <CustTabPanel value={value} index={1}><CustButtonGroup Num={1} value={value} group={ButtonsVulnDatabank}>Vulnerability Options</CustButtonGroup></CustTabPanel>
-     <CustTabPanel value={value} index={2}> <CustButtonGroup Num={2} value={value} group={AuditLog}>Audit Options</CustButtonGroup></CustTabPanel>
-
-
-  </Grid>        
-</React.Fragment>
-
-  );
-}
+    </Grid>        
+  </React.Fragment>
+  );}
 export default App 
