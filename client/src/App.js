@@ -1,6 +1,8 @@
 //The main imports to ensure everything is treated as React 
 import * as React from 'react';
 import Grid from '@mui/material/Grid'; // Grid version 1
+import { IconButton} from '@mui/material';
+import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
 
 //All icons that are being imported for this project
 import SaveIcon from '@mui/icons-material/Save'; //Save report
@@ -11,19 +13,25 @@ import DeleteIcon from '@mui/icons-material/Delete'; //Remove Button
 import ImportExportIcon from '@mui/icons-material/ImportExport'; //Import Export Button
 
 //Custom components imported to make everything neater
-import CustButtonGroup from './Components/SideBar/ButtonGroups';
-import CustButton from './Components/SideBar/CustButton';
-import CustTabPanel from './Components/Tabs/TabPanel';
+
+//Components related to the ToolBar
 import CustToolBarButtons from './Components/ToolBar/CustToolBarButtons';
 import CustToolBar from './Components/ToolBar/CustToolBar';
+//Components related to the SideBar
+import CustButtonGroup from './Components/SideBar/ButtonGroups';
+import CustButton from './Components/SideBar/CustButton';
+//Components related to the Tabs
+import CustTabPanel from './Components/Tabs/TabPanel';
 import CustTabs from './Components/Tabs/CustTabs';
 import CustForm from './Components/Tabs/CustForm';
+//Components related to the Editor Page
+import CustSection from './Components/Editor/Section';
+import CustRenderEditor from './Components/Editor/RenderEditor';
 
 //Contains all imports for Draft.Js
 import ReactDOM from 'react-dom';
 import {Editor, EditorState} from 'draft-js';
 import 'draft-js/dist/Draft.css';
-
 
 //Import of all ToolTip Descriptions
 import * as Desc from './Language/ToolTipDesc'
@@ -54,16 +62,19 @@ const AuditLog = [<CustButton  startIcon={<ImportExportIcon />} tooltip={Desc.Im
 function App() {  
   const [value, setValue] = React.useState('');
 
+
+  const [page, setPage] = React.useState(0);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);};
 
   return(
   <React.Fragment>
-      <CustToolBar>
+      <CustToolBar Heading ="Report Writing Tool">
         <CustToolBarButtons arrowPlacement='bottom-end' tooltip={Desc.ExportVulnToJira}>Export Vulnerabilities To Jira</CustToolBarButtons>
         <CustToolBarButtons arrowPlacement='bottom-start' tooltip={Desc.ExportReport}>Export Report (Word) </CustToolBarButtons>
       </CustToolBar>
-      <CustTabs onChange={handleChange} value={value}></CustTabs>
+      <CustTabs onChange={handleChange} value={value} />
 
     <Grid container spacing={4}
       sx={{ 
@@ -80,11 +91,41 @@ function App() {
 {/* This section of code handles the tabs that appear for creating new headings! */}
 
       <Grid item xs={10}>
-        <CustTabPanel value={value} index={0}> <CustForm />  </CustTabPanel>
-        <CustTabPanel value={value} index={1}> <CustForm /> </CustTabPanel>
-        <CustTabPanel value={value} index={2}> <CustForm /> </CustTabPanel>
+
+        
+        <CustTabPanel value={value} index={0}>
+
+           <CustForm heading='Heading' headingTitle="Enter Section Heading" description="SectionDescription" descriptionTitle="Enter brief description of what this section is about" /> 
+
+           <CustSection >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</CustSection> 
+           <CustSection />
+           <CustSection />
+           <CustSection />
+           <CustSection />
+           <CustSection />
+           <CustSection />
+    
+        </CustTabPanel>
+
+        <CustTabPanel value={value} index={1}> 
+            <CustForm heading='Vuln' headingTitle="Enter Vulnerability Name" description="VulnDescription" descriptionTitle="Enter brief description of the vulnerability/Security concern" /> 
+
+            <CustSection /> 
+        </CustTabPanel>
+
+        <CustTabPanel value={value} index={2}> 
+            <CustForm heading='Audit' headingTitle="Enter Audit Log" description="AuditDescription" descriptionTitle="Enter brief description of what this audit log contains" /> 
+
+            <CustSection /> 
+        </CustTabPanel>
+
       </Grid>
 
+
+    
     </Grid>        
   </React.Fragment>
   );}
