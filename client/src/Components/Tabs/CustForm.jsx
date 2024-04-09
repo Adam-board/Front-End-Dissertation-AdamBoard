@@ -21,12 +21,12 @@ export default function CustForm(props) {
             console.log(data)
          })}>
             <Grid item md={10}>
-            <Input {...register(heading, {required: "A heading is required!"})} placeholder={headingTitle} helperText={errors.heading?.message}  margin="normal"  />
+            <Input {...register(heading, {required: "A heading is required!"})} placeholder={headingTitle} helperText={errors.heading?.message} sx={{Input : {fontWeight: 'bold'}}} margin="normal"  />
             
             </Grid>
 
             <Grid item md={5}>
-            <TextField {...register(description, {required: "A description is required!"})} placeholder={descriptionTitle} multiline fullWidth variant='outlined' margin="normal"
+            <TextField {...register(description, {required: "A description is required!"})} placeholder={descriptionTitle} multiline fullWidth variant='outlined' sx={{bgcolor: 'white'}} margin="normal"
              helperText={errors.description?.message}/>
             
             </Grid>
