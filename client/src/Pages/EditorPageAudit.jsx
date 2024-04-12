@@ -5,11 +5,10 @@ import { Grid, Typography, IconButton, Button } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit'; //Edit Button
 import React from 'react';
 
-export default function EditorPage(props) {
+export default function EditorPageAudit(props) {
 const {} = props
 
 return(
-
 
 <Grid item xs={10}
     sx={{bgcolor: '#e6e6e6', border:1, margin: 2, marginTop: 5, padding: 3}}>
@@ -29,8 +28,6 @@ return(
         <Button onClick={null} variant='contained' color="error">Cancel</Button>
         </Grid>
     </Grid>
-
-
 )
 
 

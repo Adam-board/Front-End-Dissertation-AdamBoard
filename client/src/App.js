@@ -4,39 +4,53 @@ import Grid from '@mui/material/Grid'; // Grid version 1
 import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
 
 //Custom components imported to make everything neater
+import HomePage from './Pages/Home';
+import Render404 from './Pages/Render404';
+import EditorPageVuln from './Pages/EditorPageVuln';
+import EditorPageAudit from './Pages/EditorPageAudit';
+import EditorPage from './Pages/EditorPage';
 //Components related to the ToolBar
 import CustToolBarButtons from './Components/ToolBar/CustToolBarButtons';
 import CustToolBar from './Components/ToolBar/CustToolBar';
 //Components related to the SideBar
 import CustButtonGroup from './Components/SideBar/ButtonGroups';
 //Components related to the Tabs
-import CustTabPanel from './Components/Tabs/TabPanel';
 import CustTabs from './Components/Tabs/CustTabs';
-import CustForm from './Components/Tabs/CustForm';
-import CustAutoComplete from './Components/SideBar/AutoComplete';
 //Components related to the Editor Page
-import CustSection from './Components/Editor/Section';
+
 //Import all buttons used on sidebar
 import * as Side from './Components/SideBar/DataButtonGroups'
 //Import of all ToolTip Descriptions
 import * as Desc from './Language/ToolTipDesc'
 
+
+//TODO Add EventHandlers that handle adding new sections
+//TODO Add EventHandler that allows the title to be edited
+//TODO Add Link to CVSS calculator
+//TODO Add Method of adding new audit log fields
+
+
+
 function App() {  
   const [value, setValue] = React.useState(0);
+
+  const [listHeadings, setHeadings] = React.useState([]);
+  const [Vulns, setVulns] = React.useState([]);
+  const [audit, setAudit] = React.useState([]);
 
   const handleChange = (event, newValue) => {setValue(newValue);};
 
   return(
   <React.Fragment>
-      <CustToolBar Heading ="Report Writing Tool">
-        <CustToolBarButtons arrowPlacement='bottom-end' tooltip={Desc.ExportVulnToJira}>Export Vulnerabilities To Jira</CustToolBarButtons>
-        <CustToolBarButtons arrowPlacement='bottom-start' tooltip={Desc.ExportReport}>Export Report (Word) </CustToolBarButtons>
+<BrowserRouter>
+      <CustToolBar Heading ={<Link style={{ textDecoration: 'none', color:"white" }} to="/">Report Writing Tool</Link>}>
+        <CustToolBarButtons onClick={null} arrowPlacement='bottom-end' tooltip={Desc.ExportVulnToJira}>Export Vulnerabilities To Jira</CustToolBarButtons>
+        <CustToolBarButtons onClick={null} arrowPlacement='bottom-start' tooltip={Desc.ExportReport}>Export Report (Word) </CustToolBarButtons>
       </CustToolBar>
-      <CustTabs onChange={handleChange} value={value} />
+      <CustTabs onChange={handleChange} value={value}/>
 
     <Grid container spacing={4}
-      sx={{ 
-        flexGrow: 1}}>
+      sx={{flexGrow: 1}}>
 
 {/* This section of code handles the buttons displayed on the left sidebar */}
       <Grid item xs>
@@ -45,30 +59,18 @@ function App() {
         <CustButtonGroup Num={2} value={value} group={Side.AuditLog}>Audit Options</CustButtonGroup>
       </Grid>
 
-{/* This section of code handles the tabs that appear for creating new headings! */}
-      <Grid item xs={10}>
-        <CustTabPanel value={value} index={0}>
-           <CustForm heading='Heading' headingTitle="Enter Section Heading" description="SectionDescription" descriptionTitle="Enter brief description of what this section is about" /> 
-
-           <CustSection >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</CustSection> 
-           <CustSection />
-           <CustSection />
-        </CustTabPanel>
-
-        <CustTabPanel value={value} index={1}> 
-            <CustForm heading='Vuln' headingTitle="Enter Vulnerability Name" description="VulnDescription" descriptionTitle="Enter brief description of the vulnerability/Security concern" /> 
-
-        </CustTabPanel>
-
-        <CustTabPanel value={value} index={2}> 
-            <CustForm heading='Audit' headingTitle="Enter Audit Log" description="AuditDescription" descriptionTitle="Enter brief description of what this audit log contains" /> 
-
-        </CustTabPanel>
-      </Grid>
-    </Grid>        
+{/* This section of code handles the tabs that appear for creating new headings! */} 
+      <Routes>
+        
+        <Route path="/" element={<HomePage value={value}/>} />
+        <Route path="/Headingedit" element={<EditorPage />} />
+        <Route path="/VulnEdit"  element={<EditorPageVuln />}/>
+        <Route path="/AuditEdit" element={<EditorPageAudit />} />
+        <Route path="*" element={<Render404 />} />
+        
+      </Routes>
+    </Grid>
+     </BrowserRouter>     
   </React.Fragment>
   );}
 export default App 

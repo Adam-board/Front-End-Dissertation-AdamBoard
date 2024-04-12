@@ -8,10 +8,10 @@ export default function CustTabPanel(props) {
     return (
       <Grid item
         hidden={value !== index}
-        sx={{bgcolor: '#e6e6e6', border:1}}
+        sx={{bgcolor: '#e6e6e6', border:1, margin: 1}}
       >
         {value === index && (
-          <Box sx={{ padding: 3}}>
+          <Box sx={{ padding: 5}}>
             {props.children}
           </Box>
         )}

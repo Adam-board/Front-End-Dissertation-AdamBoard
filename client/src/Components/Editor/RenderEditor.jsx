@@ -1,25 +1,30 @@
-import React from "react"
+import React from 'react'
+import ReactDOM from 'react-dom';
+import {Editor, EditorState, RichUtils} from 'draft-js';
+import 'draft-js/dist/Draft.css';
+import { Button, Grid } from '@mui/material';
 
-import CustToolBar from "../ToolBar/CustToolBar"
-import CustToolBarButtons from "../ToolBar/CustToolBarButtons"
-import { IconButton } from "@mui/material"
-import ArrowBackIosNewTwoToneIcon from '@mui/icons-material/ArrowBackIosNewTwoTone';
 
+export default function CustRenderEditor() {
 
-export default function CustRenderEditor(props) {
-const {} = props
+const [editorState, setEditorState] = React.useState(EditorState.createEmpty()
+);
+const handleKeyCommand = (command, editorState) => {
+  const newState = RichUtils.handleKeyCommand(editorState, command);
 
+  if (newState) {
+    setEditorState(newState);
+    return "handled";
+  }
+  return "not handled";
+};
 
 return(
 
-<React.Fragment>
-    <CustToolBar Heading="Executive Summary">
-    <IconButton> <ArrowBackIosNewTwoToneIcon/></IconButton>
-  </CustToolBar>
-
-</React.Fragment>
-
-
+  <Grid item
+  sx={{bgcolor: 'whitesmoke', border:1, flexGrow:1, padding:2, marginTop: 1, marginBottom: 2}}>
+  <Editor handleKeyCommand={handleKeyCommand} spellCheck={true} placeholder='Please Enter Text Here!' editorState={editorState} onChange={setEditorState} />
+  </Grid>
 )
 
 

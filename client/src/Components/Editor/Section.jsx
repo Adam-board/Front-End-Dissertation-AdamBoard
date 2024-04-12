@@ -1,4 +1,4 @@
-import { Grid, IconButton, Typography, Box } from "@mui/material";
+import { Grid, IconButton, Typography, Box, Link } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit'; //Edit Button
 import DeleteIcon from '@mui/icons-material/Delete'; //Remove Button
 
@@ -41,8 +41,8 @@ const {Heading, SectionDesc, EditorDesc} = props;
 
 
     <Grid item sx={8} md={0}>
-    <IconButton color='error' ><DeleteIcon /> </IconButton>
-    <IconButton color='info' ><EditIcon /></IconButton>
+    <IconButton color='error' onClick={null}><DeleteIcon/> </IconButton>
+    <IconButton color='info' onClick={null}><EditIcon /></IconButton>
     </Grid>
 
 
