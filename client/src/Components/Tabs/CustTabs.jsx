@@ -13,6 +13,6 @@ return(
 <Tabs value={value} onChange={onChange} centered>
 <Tab icon={<DescriptionIcon />} value={0} label="Report"/>
 <Tab icon={<CoronavirusIcon />} value={1} label="Vulnerabilities"/>
-<Tab icon={<BookmarksIcon />} value={2} label="Audit Log"/>
+<Tab icon={<BookmarksIcon />} value={2} label="Notes"/>
 </Tabs>
 )}

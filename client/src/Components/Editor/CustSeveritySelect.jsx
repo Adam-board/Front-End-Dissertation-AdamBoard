@@ -10,8 +10,9 @@ import { Grid } from '@mui/material';
 
 export default function CustSeveritySelect() {
     const [severity, setSeverity] = React.useState('');
+    const [colour, setColour] = React.useState('');
   
-    const handleChange = (event) => {
+    const handleChange = (event, colour) => {
       setSeverity(event.target.value);
     };
   

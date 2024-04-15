@@ -7,7 +7,7 @@ import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
 import HomePage from './Pages/Home';
 import Render404 from './Pages/Render404';
 import EditorPageVuln from './Pages/EditorPageVuln';
-import EditorPageAudit from './Pages/EditorPageAudit';
+import EditorPageNotes from './Pages/EditorPageNotes';
 import EditorPage from './Pages/EditorPage';
 //Components related to the ToolBar
 import CustToolBarButtons from './Components/ToolBar/CustToolBarButtons';
@@ -27,17 +27,11 @@ import * as Desc from './Language/ToolTipDesc'
 //TODO Add EventHandlers that handle adding new sections
 //TODO Add EventHandler that allows the title to be edited
 //TODO Add Link to CVSS calculator
-//TODO Add Method of adding new audit log fields
-
+//TODO Add Method of adding new Notes
 
 
 function App() {  
-  const [value, setValue] = React.useState(0);
-
-  const [listHeadings, setHeadings] = React.useState([]);
-  const [Vulns, setVulns] = React.useState([]);
-  const [audit, setAudit] = React.useState([]);
-
+  const [value, setValue] = React.useState();
   const handleChange = (event, newValue) => {setValue(newValue);};
 
   return(
@@ -56,7 +50,6 @@ function App() {
       <Grid item xs>
         <CustButtonGroup Num={0} value={value} group={Side.ButtonsReport}>Report Options</CustButtonGroup>
         <CustButtonGroup Num={1} value={value} group={Side.ButtonsVulnDatabank}>Vulnerability Options</CustButtonGroup>
-        <CustButtonGroup Num={2} value={value} group={Side.AuditLog}>Audit Options</CustButtonGroup>
       </Grid>
 
 {/* This section of code handles the tabs that appear for creating new headings! */} 
@@ -65,7 +58,7 @@ function App() {
         <Route path="/" element={<HomePage value={value}/>} />
         <Route path="/Headingedit" element={<EditorPage />} />
         <Route path="/VulnEdit"  element={<EditorPageVuln />}/>
-        <Route path="/AuditEdit" element={<EditorPageAudit />} />
+        <Route path="/NotesEdit" element={<EditorPageNotes />} />
         <Route path="*" element={<Render404 />} />
         
       </Routes>

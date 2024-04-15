@@ -3,7 +3,7 @@ import { Grid } from '@mui/material';
 
 //This handles the tabs which will appear for each section
 export default function CustTabPanel(props) {
-    const {value, index} = props;
+    const {value, index, endpoint, componentPass} = props;
   
     return (
       <Grid item
@@ -13,9 +13,13 @@ export default function CustTabPanel(props) {
         {value === index && (
           <Box sx={{ padding: 5}}>
             {props.children}
+          
+            {componentPass}
           </Box>
         )}
       </Grid>
+
+
     );
   }
   

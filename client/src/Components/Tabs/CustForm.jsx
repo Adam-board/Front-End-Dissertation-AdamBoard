@@ -1,8 +1,7 @@
 
 import { Grid, Input, TextField, Button} from '@mui/material';
 
-
-import {useState} from "react"; 
+import React from 'react';
 import { useForm, SubmitHandler } from "react-hook-form"
 
 export default function CustForm(props) {
@@ -11,6 +10,7 @@ export default function CustForm(props) {
 
     console.log(errors)
     
+    const [sectionList, setSectionList] = React.useState([])
 
     return(
     <Grid container
@@ -31,7 +31,7 @@ export default function CustForm(props) {
             
             </Grid>
             <Grid item>
-            <Button type='submit' variant='contained' > Add New</Button>
+            <Button type='submit' variant='contained'> Add New</Button>
             </Grid>
         </form>
 

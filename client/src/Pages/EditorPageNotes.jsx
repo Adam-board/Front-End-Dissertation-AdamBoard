@@ -5,7 +5,7 @@ import { Grid, Typography, IconButton, Button } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit'; //Edit Button
 import React from 'react';
 
-export default function EditorPageAudit(props) {
+export default function EditorPageNotes(props) {
 const {} = props
 
 return(
@@ -17,7 +17,7 @@ return(
 
     <Grid container direction={'row'}>
         <Typography variant="h4" sx={{textDecoration: 'underline', fontWeight: "bold"}}>Executive Summary</Typography> 
-        <IconButton color='info' ><EditIcon /></IconButton>
+        {/* <IconButton color='info' ><EditIcon /></IconButton> */}
     </Grid>
         <Typography variant="h5">This section provides a brief overview of the entire report's findings from the penetration test. The language in this section should be aimed towards non-technical users </Typography> 
     

@@ -26,5 +26,4 @@ export const ButtonsVulnDatabank = [
 <CustButton onClick={null} startIcon={<ImportExportIcon />} tooltip={Desc.ImportVulnDatabank} arrowPlacement="right" >Import Vulnerability Databank</CustButton>
 ];
 
-export const AuditLog = [<CustButton onClick={null} startIcon={<ImportExportIcon />} tooltip={Desc.ImportAuditLog} arrowPlacement="right" >Import Audit Log</CustButton>,];
 
