@@ -7,7 +7,6 @@ import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
 import HomePage from './Pages/Home';
 import Render404 from './Pages/Render404';
 import EditorPageVuln from './Pages/EditorPageVuln';
-import EditorPageNotes from './Pages/EditorPageNotes';
 import EditorPage from './Pages/EditorPage';
 //Components related to the ToolBar
 import CustToolBarButtons from './Components/ToolBar/CustToolBarButtons';
@@ -58,7 +57,7 @@ function App() {
         <Route path="/" element={<HomePage value={value}/>} />
         <Route path="/Headingedit" element={<EditorPage />} />
         <Route path="/VulnEdit"  element={<EditorPageVuln />}/>
-        <Route path="/NotesEdit" element={<EditorPageNotes />} />
+        <Route path="/NotesEdit" element={<EditorPage />} />
         <Route path="*" element={<Render404 />} />
         
       </Routes>
