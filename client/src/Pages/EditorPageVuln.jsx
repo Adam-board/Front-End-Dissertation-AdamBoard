@@ -1,17 +1,19 @@
 import CustRenderEditor from '../Components/Editor/RenderEditor';
 import CustSeveritySelect from '../Components/Editor/CustSeveritySelect';
 import CVSSCalculator from '../Components/Editor/CVSSCalculator';
-import { Grid, Typography, IconButton, Button, Checkbox} from '@mui/material';
+import { Grid, Typography, IconButton, Button} from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit'; //Edit Button
 import React from 'react';
+import { useParams } from 'react-router-dom';
 
 
 
 
 
 
-export default function EditorPageVuln(props) {
-    const {VulnName,Severity, Description, Data} = props;
+export default function EditorPageVuln() {
+    
+    const {VulnID} = useParams() 
 
 return(
 

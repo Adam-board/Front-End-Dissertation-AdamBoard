@@ -10,7 +10,7 @@ export default function VulnDeletion({handleModalClose}) {
   const [selectedVulnTemplate, setSelectedVulnTemplate] = useState();
   const [VulnNameInput, setVulnNameInput] = useState('');
 
-  const { data, error, isLoading } = useSWR('/api/report/vulnTemplates', fetcher)
+  const { data, isLoading } = useSWR('/api/report/vulnTemplates', fetcher)
 
   console.log(data)
 

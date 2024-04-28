@@ -7,6 +7,7 @@ import ReportPage from './Pages/ReportPage';
 import Render404 from './Pages/Render404';
 import EditorPageVuln from './Pages/EditorPageVuln';
 import EditorPage from './Pages/EditorPage';
+import EditorPageNote from './Pages/EditorPageNote';
 //Components related to the ToolBar
 import CustToolBarButtons from './Components/ToolBar/CustToolBarButtons';
 import CustToolBar from './Components/ToolBar/CustToolBar';
@@ -36,7 +37,7 @@ function App() {
         <Route path="Reports/:ReportID" element={<CustSideBar value={value}> <ReportPage value={value}/> </CustSideBar>} />
         <Route path="/Heading/:SectionID" element={<CustSideBar value={value}><EditorPage /></CustSideBar>} />
         <Route path="/Vuln/:VulnID"  element={<CustSideBar value={value}><EditorPageVuln /></CustSideBar>}/>
-        <Route path="/Note/:NoteID" element={<CustSideBar value={value}><EditorPage /></CustSideBar>} />
+        <Route path="/Note/:NoteID" element={<CustSideBar value={value}><EditorPageNote /></CustSideBar>} />
         <Route path="*" element={<Render404 />} />
       </Routes>  
      </BrowserRouter>     

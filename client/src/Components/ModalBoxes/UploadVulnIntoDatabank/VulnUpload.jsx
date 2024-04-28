@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { FormControl, FormControlLabel, Radio, RadioGroup, Button, TextField } from '@mui/material';
+import { FormControl, FormControlLabel, Radio, RadioGroup, Button} from '@mui/material';
 import useSWR from 'swr';
 import CircularProgress from '@mui/material/CircularProgress';
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 
@@ -10,10 +10,9 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 export default function VulnUpload({handleModalClose}) {
   const [SelectedVuln, setSelectedVuln] = useState();
 
-  const navigate = useNavigate();
   const {ReportID} = useParams();
 
-  const { data, error, isLoading } = useSWR(`/api/report/${ReportID}/vulns`, fetcher)
+  const { data, isLoading } = useSWR(`/api/report/${ReportID}/vulns`, fetcher)
 
   const handleVulnChange = (event) => {
     setSelectedVuln(event.target.value);
@@ -34,7 +33,6 @@ export default function VulnUpload({handleModalClose}) {
         body: JSON.stringify(body)
       }).then(res => res.json()).then(res =>{
         console.log(res)
-      // navigate(`Reports/${res.ReportID}`)
       handleModalClose()
       })
   };

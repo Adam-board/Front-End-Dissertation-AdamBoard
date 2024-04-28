@@ -12,7 +12,7 @@ export default function TemplateAddition({ handleModalClose }) {
     setReportTitle(event.target.value); // Update the report title state
   };
 
-  const { data, error, isLoading } = useSWR('/api/report', fetcher)
+  const { data, isLoading } = useSWR('/api/report', fetcher)
 
   const handleReportChange = (event) => {
     setSelectedReport(event.target.value);

@@ -10,7 +10,7 @@ export default function TemplateDeletion({handleModalClose}) {
   const [selectedTemplate, setSelectedTemplate] = useState();
   const [TemplateNameInput, setTemplateNameInput] = useState('');
 
-  const { data, error, isLoading } = useSWR('/api/report/templates', fetcher)
+  const { data, isLoading } = useSWR('/api/report/templates', fetcher)
 
 
   const handleTemplateChange = (event) => {

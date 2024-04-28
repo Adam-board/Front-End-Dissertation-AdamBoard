@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
-import { FormControl, FormControlLabel, Radio, RadioGroup, Button, TextField } from '@mui/material';
+import { FormControl, FormControlLabel, Radio, RadioGroup, Button} from '@mui/material';
 import useSWR from 'swr';
 import CircularProgress from '@mui/material/CircularProgress';
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 
 
 export default function VulnSelection({handleModalClose}) {
   const [selectedVulnTemplate, setSelectedVulnTemplate] = useState();
-  const navigate = useNavigate();
   const {ReportID} = useParams();
 
-  const { data, error, isLoading } = useSWR('/api/report/vulnTemplates', fetcher)
+  const { data, isLoading } = useSWR('/api/report/vulnTemplates', fetcher)
 
   const handleVulnTemplateChange = (event) => {
     setSelectedVulnTemplate(event.target.value);

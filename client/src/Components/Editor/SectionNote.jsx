@@ -3,34 +3,34 @@ import EditIcon from '@mui/icons-material/Edit'; //Edit Button
 import DeleteIcon from '@mui/icons-material/Delete'; //Remove Button
 import { useNavigate, useParams } from "react-router-dom";
 
-export default function CustSection(props) {
+export default function CustSectionNote(props) {
 const {Heading, Description, Data, id} = props;
 
 const navigate = useNavigate();
 const {ReportID} = useParams();
 
-const handleDeleteSection = () => {
-    // Call the API to delete the section
-    fetch(`/api/report/${ReportID}/section/${id}/delete`, {
+const handleDeleteNote = () => {
+    // Call the API to delete the Note
+    fetch(`/api/report/${ReportID}/note/${id}/delete`, {
         method: 'DELETE'
     })
     .then(res => {
         if (res.ok) {
-            console.log('Section deleted successfully');
+            console.log('Note deleted successfully');
             // Optionally update state or perform any necessary actions
         } else {
-            throw new Error('Failed to delete section');
+            throw new Error('Failed to delete Note');
         }
     })
     .catch(error => {
-        console.error('Error deleting section:', error);
+        console.error('Error deleting Note:', error);
         // Handle error as needed
     });
 };
 
-const handleEditSection = () => {
-    // Navigate to the editor page with the section ID
-    navigate(`/Heading/${id}`);
+const handleEditNote = () => {
+    // Navigate to the editor page with the Note ID
+    navigate(`/Note/${id}`);
 };
 
     return(
@@ -54,8 +54,8 @@ const handleEditSection = () => {
             </Grid>
             
             <Grid item sx={8} md={0}>
-                <IconButton color='error' onClick={handleDeleteSection}><DeleteIcon/> </IconButton>
-                <IconButton color='info' onClick={handleEditSection}><EditIcon /></IconButton>
+                <IconButton color='error' onClick={handleDeleteNote}><DeleteIcon/> </IconButton>
+                <IconButton color='info' onClick={handleEditNote}><EditIcon /></IconButton>
             </Grid>
         </Grid>  
     )

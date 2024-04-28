@@ -11,7 +11,7 @@ export default function TemplateSelection({handleModalClose}) {
   const [selectedTemplate, setSelectedTemplate] = useState("blank");
   const [Title, setReportTitle] = useState(""); // State for the report title
 
-  const { data, error, isLoading } = useSWR('/api/report/templates', fetcher)
+  const { data, isLoading } = useSWR('/api/report/templates', fetcher)
 
   const navigate = useNavigate();
 
@@ -30,7 +30,7 @@ export default function TemplateSelection({handleModalClose}) {
     if (selectedTemplate !== "blank"){
       body.templateId = selectedTemplate
     }
-    if (body.title == ""){ delete body.title} 
+    if (body.title === ""){ delete body.title} 
     fetch(
       "/api/report/new", 
       {
@@ -40,7 +40,7 @@ export default function TemplateSelection({handleModalClose}) {
         },
         body: JSON.stringify(body)
       }).then(res => res.json()).then(res =>{
-      navigate(`Reports/${res.ReportID}`)
+      navigate(`../../Reports/${res.ReportID}`)
       handleModalClose()
       })
   };

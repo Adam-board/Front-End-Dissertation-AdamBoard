@@ -10,7 +10,7 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 export default function ReportSelection({handleModalClose}) {
   const [selectedReport, setSelectedReport] = useState();
 
-  const { data, error, isLoading } = useSWR('/api/report', fetcher)
+  const { data, isLoading } = useSWR('/api/report', fetcher)
 
   const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ export default function ReportSelection({handleModalClose}) {
   };
 
   const handleLoadReport = () => {
-    navigate(`Reports/${selectedReport}`)
+    navigate(`../../Reports/${selectedReport}`)
     handleModalClose()
     
   };

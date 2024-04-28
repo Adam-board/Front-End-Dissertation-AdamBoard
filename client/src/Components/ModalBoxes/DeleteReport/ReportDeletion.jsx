@@ -10,7 +10,7 @@ export default function ReportDeletion({handleModalClose}) {
   const [selectedReport, setSelectedReport] = useState();
   const [reportNameInput, setReportNameInput] = useState('');
 
-  const { data, error, isLoading } = useSWR('/api/report', fetcher)
+  const { data, isLoading } = useSWR('/api/report', fetcher)
 
 
   const handleReportChange = (event) => {

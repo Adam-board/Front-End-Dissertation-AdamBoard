@@ -6,9 +6,9 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 
 
-export default function EditorPage() {
+export default function EditorPageNote() {
 
-    const {SectionID} = useParams()  
+    const {NoteID} = useParams() 
 
 
 return(
