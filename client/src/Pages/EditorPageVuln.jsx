@@ -30,7 +30,7 @@ return(
         <CustSeveritySelect Severity={Severity}/>
     </Grid>
 
-        <CustRenderEditor />
+        <CustRenderEditor Data={Data}/>
 
        <Grid container xs={12} justifyContent={'flex-end'}>
         <Button onClick={null} variant='contained'>Save</Button>
