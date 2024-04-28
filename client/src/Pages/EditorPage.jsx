@@ -6,7 +6,7 @@ import EditIcon from '@mui/icons-material/Edit'; //Edit Button
 import React from 'react';
 
 export default function EditorPage(props) {
-const {} = props
+    const {Heading, Description, Data} = props;
 
 return(
 
@@ -17,12 +17,12 @@ return(
 
 
     <Grid container direction={'row'}>
-        <Typography variant="h4" sx={{textDecoration: 'underline', fontWeight: "bold"}}>Executive Summary</Typography> 
-        {/* <IconButton color='info' ><EditIcon /></IconButton> */}
+        <Typography variant="h4" sx={{textDecoration: 'underline', fontWeight: "bold"}}>{Heading}</Typography> 
+        <IconButton color='info' ><EditIcon /></IconButton>
     </Grid>
-        <Typography variant="h5">This section provides a brief overview of the entire report's findings from the penetration test. The language in this section should be aimed towards non-technical users </Typography> 
+        <Typography variant="h5">{Description}</Typography> 
     
-       <CustRenderEditor />
+       <CustRenderEditor Data={Data} />
 
        <Grid container xs={12} justifyContent={'flex-end'}>
         <Button onClick={null} variant='contained'>Save</Button>

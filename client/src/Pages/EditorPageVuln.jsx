@@ -1,19 +1,17 @@
 import CustRenderEditor from '../Components/Editor/RenderEditor';
 import CustSeveritySelect from '../Components/Editor/CustSeveritySelect';
-import CustCheckbox from '../Components/Editor/CustCheckBox';
 import CVSSCalculator from '../Components/Editor/CVSSCalculator';
-
 import { Grid, Typography, IconButton, Button, Checkbox} from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit'; //Edit Button
 import React from 'react';
-import { Height } from '@mui/icons-material';
+
 
 
 
 
 
 export default function EditorPageVuln(props) {
-const {} = props
+    const {VulnName,Severity, Description, Data} = props;
 
 return(
 
@@ -23,14 +21,13 @@ return(
 
 
     <Grid container direction={'row'}>
-        <Typography variant="h4" sx={{textDecoration: 'underline', fontWeight: "bold"}}>Executive Summary</Typography> 
+        <Typography variant="h4" sx={{textDecoration: 'underline', fontWeight: "bold"}}>{VulnName}</Typography> 
         <IconButton color='info' ><EditIcon /></IconButton>
     </Grid>
-        <Typography variant="h5">This section provides a brief overview of the entire report's findings from the penetration test. The language in this section should be aimed towards non-technical users </Typography> 
+        <Typography variant="h5">{Description}</Typography> 
       
     <Grid item>
-        <CustSeveritySelect />
-        <CustCheckbox />
+        <CustSeveritySelect Severity={Severity}/>
     </Grid>
 
         <CustRenderEditor />

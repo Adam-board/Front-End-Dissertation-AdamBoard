@@ -4,7 +4,8 @@ import Grid from '@mui/material/Grid'; // Grid version 1
 import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
 
 //Custom components imported to make everything neater
-import HomePage from './Pages/Home';
+import HomePage from './Pages/HomePage';
+import ReportPage from './Pages/ReportPage';
 import Render404 from './Pages/Render404';
 import EditorPageVuln from './Pages/EditorPageVuln';
 import EditorPage from './Pages/EditorPage';
@@ -30,7 +31,7 @@ import * as Desc from './Language/ToolTipDesc'
 
 
 function App() {  
-  const [value, setValue] = React.useState();
+  const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {setValue(newValue);};
 
   return(
@@ -47,17 +48,17 @@ function App() {
 
 {/* This section of code handles the buttons displayed on the left sidebar */}
       <Grid item xs>
-        <CustButtonGroup Num={0} value={value} group={Side.ButtonsReport}>Report Options</CustButtonGroup>
+        <CustButtonGroup group={Side.ButtonsReport}>Report Options</CustButtonGroup>
         <CustButtonGroup Num={1} value={value} group={Side.ButtonsVulnDatabank}>Vulnerability Options</CustButtonGroup>
       </Grid>
 
 {/* This section of code handles the tabs that appear for creating new headings! */} 
       <Routes>
-        
-        <Route path="/" element={<HomePage value={value}/>} />
-        <Route path="/Headingedit" element={<EditorPage />} />
-        <Route path="/VulnEdit"  element={<EditorPageVuln />}/>
-        <Route path="/NotesEdit" element={<EditorPage />} />
+        <Route path="/" element={<HomePage/>} />
+        <Route path="Reports/:ReportID" element={<ReportPage value={value}/>} />
+        <Route path="/Heading/:SectionID" element={<EditorPage />} />
+        <Route path="/Vuln/:VulnID"  element={<EditorPageVuln />}/>
+        <Route path="/Note/:NoteID" element={<EditorPage />} />
         <Route path="*" element={<Render404 />} />
         
       </Routes>

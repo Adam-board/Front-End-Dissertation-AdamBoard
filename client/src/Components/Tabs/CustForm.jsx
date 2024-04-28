@@ -2,7 +2,7 @@
 import { Grid, Input, TextField, Button} from '@mui/material';
 
 import React from 'react';
-import { useForm, SubmitHandler } from "react-hook-form"
+import { useForm, SubmitHandler, Form } from "react-hook-form"
 
 export default function CustForm(props) {
     const {heading, headingTitle, description, descriptionTitle} = props
@@ -18,16 +18,15 @@ export default function CustForm(props) {
     >
         <form noValidate autoComplete='off'
          onSubmit={handleSubmit((data) => {
-            console.log(data)
+            console.log(data) 
          })}>
             <Grid item md={10}>
-            <Input {...register(heading, {required: "A heading is required!"})} placeholder={headingTitle} helperText={errors.heading?.message} sx={{Input : {fontWeight: 'bold'}}} margin="normal"  />
+            <Input {...register(heading)} placeholder={headingTitle} sx={{Input : {fontWeight: 'bold'}}} margin="normal"  />
             
             </Grid>
 
             <Grid item md={5}>
-            <TextField {...register(description, {required: "A description is required!"})} placeholder={descriptionTitle} multiline fullWidth variant='outlined' sx={{bgcolor: 'white'}} margin="normal"
-             helperText={errors.description?.message}/>
+            <TextField {...register(description)} placeholder={descriptionTitle} multiline fullWidth variant='outlined' sx={{bgcolor: 'white'}} margin="normal"/>
             
             </Grid>
             <Grid item>
