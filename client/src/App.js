@@ -1,8 +1,6 @@
 //The main imports to ensure everything is treated as React 
 import * as React from 'react';
-import Grid from '@mui/material/Grid'; // Grid version 1
 import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
-
 //Custom components imported to make everything neater
 import HomePage from './Pages/HomePage';
 import ReportPage from './Pages/ReportPage';
@@ -12,23 +10,12 @@ import EditorPage from './Pages/EditorPage';
 //Components related to the ToolBar
 import CustToolBarButtons from './Components/ToolBar/CustToolBarButtons';
 import CustToolBar from './Components/ToolBar/CustToolBar';
-//Components related to the SideBar
-import CustButtonGroup from './Components/SideBar/ButtonGroups';
 //Components related to the Tabs
 import CustTabs from './Components/Tabs/CustTabs';
-//Components related to the Editor Page
-
 //Import all buttons used on sidebar
-import * as Side from './Components/SideBar/DataButtonGroups'
+import CustSideBar from './Components/SideBar/CustSideBar';
 //Import of all ToolTip Descriptions
 import * as Desc from './Language/ToolTipDesc'
-
-
-//TODO Add EventHandlers that handle adding new sections
-//TODO Add EventHandler that allows the title to be edited
-//TODO Add Link to CVSS calculator
-//TODO Add Method of adding new Notes
-
 
 function App() {  
   const [value, setValue] = React.useState(0);
@@ -43,26 +30,15 @@ function App() {
       </CustToolBar>
       <CustTabs onChange={handleChange} value={value}/>
 
-    <Grid container spacing={4}
-      sx={{flexGrow: 1}}>
-
-{/* This section of code handles the buttons displayed on the left sidebar */}
-      <Grid item xs>
-        <CustButtonGroup group={Side.ButtonsReport}>Report Options</CustButtonGroup>
-        <CustButtonGroup Num={1} value={value} group={Side.ButtonsVulnDatabank}>Vulnerability Options</CustButtonGroup>
-      </Grid>
-
-{/* This section of code handles the tabs that appear for creating new headings! */} 
+{/* This section of code handles switching out the components and passing along the id of both Reports and Editors */} 
       <Routes>
-        <Route path="/" element={<HomePage/>} />
-        <Route path="Reports/:ReportID" element={<ReportPage value={value}/>} />
-        <Route path="/Heading/:SectionID" element={<EditorPage />} />
-        <Route path="/Vuln/:VulnID"  element={<EditorPageVuln />}/>
-        <Route path="/Note/:NoteID" element={<EditorPage />} />
+        <Route path="/" element={<CustSideBar value={value}> <HomePage/> </CustSideBar>} />
+        <Route path="Reports/:ReportID" element={<CustSideBar value={value}> <ReportPage value={value}/> </CustSideBar>} />
+        <Route path="/Heading/:SectionID" element={<CustSideBar value={value}><EditorPage /></CustSideBar>} />
+        <Route path="/Vuln/:VulnID"  element={<CustSideBar value={value}><EditorPageVuln /></CustSideBar>}/>
+        <Route path="/Note/:NoteID" element={<CustSideBar value={value}><EditorPage /></CustSideBar>} />
         <Route path="*" element={<Render404 />} />
-        
-      </Routes>
-    </Grid>
+      </Routes>  
      </BrowserRouter>     
   </React.Fragment>
   );}

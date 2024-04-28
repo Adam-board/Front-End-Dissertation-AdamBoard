@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FormControl, FormControlLabel, Radio, RadioGroup, Button, TextField } from '@mui/material';
 import useSWR from 'swr';
 import CircularProgress from '@mui/material/CircularProgress';
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 
@@ -10,11 +10,12 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 export default function VulnUpload({handleModalClose}) {
   const [SelectedVuln, setSelectedVuln] = useState();
 
-  const { data, error, isLoading } = useSWR('/api/report/templates', fetcher)
-
   const navigate = useNavigate();
+  const {ReportID} = useParams();
 
-  const handleTemplateChange = (event) => {
+  const { data, error, isLoading } = useSWR(`/api/report/${ReportID}/vulns`, fetcher)
+
+  const handleVulnChange = (event) => {
     setSelectedVuln(event.target.value);
   };
 
@@ -22,9 +23,9 @@ export default function VulnUpload({handleModalClose}) {
   const handleCreateReport = () => {
     //make sure the name is filled in, as well as the ID Make sure not Blank
     const body = {}
-      body.templateId = SelectedVuln
+      body.VulnId = SelectedVuln
     fetch(
-      "/api/report/new", 
+      `/api/report/${ReportID}/vuln/insertDatabank`, 
       {
         method: "POST", 
         headers: {
@@ -32,7 +33,8 @@ export default function VulnUpload({handleModalClose}) {
         },
         body: JSON.stringify(body)
       }).then(res => res.json()).then(res =>{
-      navigate(`Reports/${res.ReportID}`)
+        console.log(res)
+      // navigate(`Reports/${res.ReportID}`)
       handleModalClose()
       })
   };
@@ -42,9 +44,9 @@ export default function VulnUpload({handleModalClose}) {
   return (
     <div>
       <FormControl component="fieldset">
-        <RadioGroup defaultValue="blank" value={SelectedVuln} onChange={handleTemplateChange}>
-          {data.Templates.map((template) => (
-            <FormControlLabel key={template.id} value={template.id} control={<Radio />} label={template.TemplateName} />
+        <RadioGroup value={SelectedVuln} onChange={handleVulnChange}>
+          {data.vulns.map((Vuln) => (
+            <FormControlLabel key={Vuln.id} value={Vuln.id} control={<Radio />} label={Vuln.VulnName} />
           ))}
         </RadioGroup>
       </FormControl>
