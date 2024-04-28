@@ -35,8 +35,6 @@ export default function ReportDeletion({handleModalClose}) {
     })
     .then(res => res.json())
     .then(res => {
-      console.log(res); // Log the deletion response
-      // Optionally navigate to a different page or update state
     })
     .catch(error => {
       console.error("Error deleting report:", error);

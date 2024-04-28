@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import Modal from '@mui/material/Modal';
-import SaveIcon from '@mui/icons-material/Save'; //Save report
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import CustButton from '../../SideBar/CustButton';
-import { SaveReportTemplate } from '../../../Language/ToolTipDesc';
-import  Typography  from '@mui/material/Typography';
-import TemplateAddition from './TemplateAddition';
+import {InsertVulnFromDatabankText} from '../../../Language/ToolTipDesc'
+import Typography  from '@mui/material/Typography';
+import VulnSelection from './VulnSelection';
 
-  
-export default function SaveTemplateModal() {
+
+export default function InsertVulnFromDatabankModal() {
   const [open, setOpen] = useState(false);
   
   const handleClickOpen = () => {
@@ -20,7 +20,7 @@ export default function SaveTemplateModal() {
   
   const modalStyle = {
     position: 'absolute',
-    top: '40%',
+    top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 800,
@@ -34,14 +34,14 @@ export default function SaveTemplateModal() {
   
   return (
     <div>
-      <CustButton onClick={handleClickOpen} startIcon={<SaveIcon/>} tooltip={SaveReportTemplate} arrowPlacement="right-end" >Save Report Template</CustButton>
+      <CustButton onClick={handleClickOpen} startIcon={<AddCircleOutlineIcon />} tooltip={InsertVulnFromDatabankText} arrowPlacement="right" >Insert Vulnerability From Databank</CustButton>
       <Modal
         open={open}
         onClose={handleClose}
        >
         <div style={modalStyle}>
-          <Typography variant="h4">{"Save the Report Template:"}</Typography>
-          <TemplateAddition handleModalClose={handleClose}/>
+          <Typography variant="h4">{"Choose a vulnerability to insert into Report:"}</Typography>
+          <VulnSelection handleModalClose={handleClose}/>
         </div>
       </Modal>
     </div>

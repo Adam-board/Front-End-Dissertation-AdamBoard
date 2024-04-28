@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Modal from '@mui/material/Modal';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import CustButton from '../../SideBar/CustButton';
-import { NewReport } from '../../../Language/ToolTipDesc';
+import {NewReport}  from '../../../Language/ToolTipDesc';
 import  Typography  from '@mui/material/Typography';
 import TemplateSelection from './TemplateSelection';
 
@@ -40,7 +40,7 @@ export default function NewReportModal() {
         onClose={handleClose}
        >
         <div style={modalStyle}>
-          <Typography variant="h4">{"Choose a Template or start a blank report!"}</Typography>
+          <Typography variant="h4">{"Choose a Template or start a blank report:"}</Typography>
           <TemplateSelection handleModalClose={handleClose}/>
         </div>
       </Modal>

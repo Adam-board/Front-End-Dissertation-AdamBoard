@@ -1,25 +1,30 @@
 import React, { useState } from 'react';
-import {Button, TextField } from '@mui/material';
+import { FormControl, FormControlLabel, Radio, RadioGroup, Button, TextField } from '@mui/material';
+import useSWR from 'swr';
+import CircularProgress from '@mui/material/CircularProgress';
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-
-
 export default function TemplateAddition({ handleModalClose }) {
+  const [selectedReport, setSelectedReport] = useState();
   const [Title, setReportTitle] = useState(""); // State for the report title
-
 
   const handleTitleChange = (event) => {
     setReportTitle(event.target.value); // Update the report title state
   };
 
-  const handleAddTemplateReport = () => {
-    // Make sure the title is filled in
-    if (!Title) return;
+  const { data, error, isLoading } = useSWR('/api/report', fetcher)
 
+  const handleReportChange = (event) => {
+    setSelectedReport(event.target.value);
+  };
+
+  const handleAddTemplateReport = () => {
+
+    if (!Title) return;
     const body = {};
 
+    body.id = selectedReport
     body.TemplateName = Title
-    body.id = ""
     fetch(
       `/api/report/templates/new`, 
       {
@@ -39,15 +44,25 @@ export default function TemplateAddition({ handleModalClose }) {
         // Handle error as needed
       });
   };
+
+  if (isLoading) return <CircularProgress />
+
   return (
     <div>
-       <TextField
+        <TextField
         label="Report Title"
         value={Title}
         onChange={handleTitleChange}
         sx={{margin: 3}}
       />
-      <Button onClick={handleAddTemplateReport}>Create Template</Button>
+      <FormControl component="fieldset">
+        <RadioGroup  value={selectedReport} onChange={handleReportChange}>
+          {data.reports.map((Report) => (
+            <FormControlLabel key={Report.id} value={Report.id} control={<Radio />} label={Report.Report} />
+          ))}
+        </RadioGroup>
+      </FormControl>
+      <Button onClick={handleAddTemplateReport} disabled={!Title}>Create Template</Button>
     </div>
   );
 }

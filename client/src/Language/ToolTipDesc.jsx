@@ -11,7 +11,7 @@ export const RemoveReportTemplate = `Remove a chosen template from the list of r
 //Vulnerability Options Button Descriptions
 export const RemoveVulnFromDatabank = `Remove a vulnerability from the databank.(BEWARE THIS IS PERMANENT)`
 export const UploadVulnToDatabank = `Upload a vulnerability from the report into the vulnerability databank`
-export const InsertVulnFromDatabank = `Add a vulnerability to the report directly from the databank to speed up the process!`
+export const InsertVulnFromDatabankText = `Add a vulnerability to the report directly from the databank to speed up the process!`
 
 
 //Buttons in Toolbar
