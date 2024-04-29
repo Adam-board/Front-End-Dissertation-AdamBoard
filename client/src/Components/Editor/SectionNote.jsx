@@ -38,9 +38,17 @@ const handleEditNote = () => {
 };
 
 
-    // Parse the JSON data and convert it to EditorState
-    const editorState = Data ? EditorState.createWithContent(convertFromRaw(JSON.parse(Data))) : EditorState.createEmpty();
+let editorState = EditorState.createEmpty();
 
+try {
+    if (Data) {
+        const contentState = convertFromRaw(JSON.parse(Data));
+        editorState = EditorState.createWithContent(contentState);
+    }
+} catch (error) {
+    console.error('Error parsing JSON data:', error);
+    // Handle parsing error as needed, e.g., set default editor state
+}
 
     return(
 

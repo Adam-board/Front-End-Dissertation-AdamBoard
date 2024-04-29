@@ -1,5 +1,5 @@
 import CustRenderEditor from '../Components/Editor/RenderEditor';
-import { Grid, Button, TextField } from '@mui/material';
+import { Grid, Button, TextField, Typography } from '@mui/material';
 import React, { useCallback, useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useSWR from 'swr';
@@ -9,43 +9,43 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 export default function EditorPage() {
   const { SectionID } = useParams();
   const navigate = useNavigate();
-  const { data, error, mutate } = useSWR(`/api/report/section/${SectionID}`, fetcher);
   const [headingText, setHeadingText] = useState('');
   const [descriptionText, setDescriptionText] = useState('');
+  const [editorData, setEditorData] = useState(null);
   const [modified, setModified] = useState(false);
-  const [editorData, setEditorData] = useState(null); // Initialize editorData as null
+  
+  const { data, mutate } = useSWR(`/api/report/section/${SectionID}`, fetcher);
 
   useEffect(() => {
     if (data) {
       setHeadingText(data.Section.Heading);
       setDescriptionText(data.Section.Description);
-      setEditorData(data.Section.Data); // Set editorData from fetched data
+      setEditorData(data.Section);
     }
   }, [data]);
 
   const handleHeadingChange = (event) => {
     setHeadingText(event.target.value);
-    setModified(true);
   };
 
   const handleDescriptionChange = (event) => {
     setDescriptionText(event.target.value);
-    setModified(true);
   };
 
   const handleEditorDataChange = (data) => {
+    console.log("New editor data:", data);
     setModified(true);
-    setEditorData(data); // Store the raw JavaScript data from the editor
+    setEditorData(data);
   };
 
   const handleSaveSection = useCallback(() => {
-    // Check if changes have been made or not
     if (!modified) {
       console.log('No changes made');
-      return; // Do nothing if no changes made
+      return;
     }
 
-    // Make PUT request to update section data
+    console.log("Saving section data:", editorData);
+
     fetch(`/api/report/section/${SectionID}/save`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -61,10 +61,9 @@ export default function EditorPage() {
         }
       })
       .catch((error) => console.error('Error updating section:', error));
-  }, [SectionID, data, modified, mutate, navigate, headingText, descriptionText, editorData]);
+  }, [SectionID, modified, mutate, navigate, headingText, descriptionText, editorData]);
 
-  if (error) return <div>Error loading section data</div>;
-  if (!data) return <div>Loading...</div>;
+  if (!editorData) return <div>Loading...</div>;
 
   return (
     <Grid item xs={10} sx={{ bgcolor: '#e6e6e6', border: 1, margin: 2, marginTop: 5, padding: 3 }}>
@@ -93,8 +92,8 @@ export default function EditorPage() {
           sx: { fontStyle: 'italic' },
         }}
       />
-      {/* Pass initialContent as editorData */}
-      <CustRenderEditor onDataChange={handleEditorDataChange} initialContent={editorData} />
+      <Typography>Click on the editor below before pressing the save button to confirm your changes</Typography>
+      <CustRenderEditor onDataChange={handleEditorDataChange} initialContent={editorData.Data} />
       <Grid container xs={12} justifyContent={'flex-end'}>
         <Button onClick={handleSaveSection} variant="contained">
           Save

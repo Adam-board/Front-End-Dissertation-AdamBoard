@@ -1,7 +1,7 @@
 import CustRenderEditor from '../Components/Editor/RenderEditor';
 import CustSeveritySelect from '../Components/Editor/CustSeveritySelect';
 import CVSSCalculator from '../Components/Editor/CVSSCalculator';
-import { Grid, TextField, Button } from '@mui/material';
+import { Grid, TextField, Button, Typography } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useSWR from 'swr';
@@ -14,6 +14,7 @@ export default function EditorPageVuln() {
     const [vulnData, setVulnData] = useState(null);
     const [headingText, setHeadingText] = useState('');
     const [descriptionText, setDescriptionText] = useState('');
+    const [severity, setSeverity] = useState(); // State for severity
     const [modified, setModified] = useState(false);
 
     // Fetch vuln data using useSWR
@@ -24,46 +25,54 @@ export default function EditorPageVuln() {
             setVulnData(data.vuln);
             setHeadingText(data.vuln.VulnName);
             setDescriptionText(data.vuln.Description);
+            setSeverity(data.vuln.Severity); // Set severity from fetched data
         }
     }, [data]);
 
     const handleHeadingChange = (event) => {
         setHeadingText(event.target.value);
-        setModified(true);
     };
 
     const handleDescriptionChange = (event) => {
         setDescriptionText(event.target.value);
-        setModified(true);
+    };
+
+    const handleSeverityChange = (severity) => {
+        setSeverity(severity); // Update severity when it changes
     };
 
     const handleVulnDataChange = (data) => {
+        console.log("New editor data:", data);
         setModified(true);
-        setVulnData(data); // Update vulnData state with the new editor data
+        setVulnData(data);
     };
 
-    // Function to handle saving vuln
     const handleSaveVuln = useCallback(() => {
-        // Check if changes have been made or not
         if (!modified) {
             console.log('No changes made');
-            return; // Do nothing if no changes made
+            return;
         }
-
-        // Make PUT request to update vuln data
+    
+        console.log("Saving vuln data:", vulnData);
+    
+        const requestData = {
+            VulnName: headingText,
+            Description: descriptionText,
+            Data: vulnData,
+            Severity: severity // Include severity in the request body
+        };
+    
         fetch(`/api/report/vuln/${VulnID}/save`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ ...vulnData, VulnName: headingText, Description: descriptionText })
+            body: JSON.stringify(requestData)
         })
             .then(res => {
                 if (res.ok) {
                     console.log('Vuln updated successfully');
-                    // Revalidate vuln data after update
                     mutate();
-                    // Navigate back to previous page after successful save
                     navigate(-1);
                 } else {
                     throw new Error('Failed to update vuln');
@@ -72,8 +81,7 @@ export default function EditorPageVuln() {
             .catch(error => {
                 console.error('Error updating vuln:', error);
             });
-    }, [VulnID, vulnData, mutate, navigate, headingText, descriptionText, modified]);
-
+    }, [VulnID, vulnData, mutate, navigate, headingText, descriptionText, severity, modified]);
     if (!vulnData) return <div>Loading...</div>;
 
     return (
@@ -102,9 +110,9 @@ export default function EditorPageVuln() {
                 }}
             />
             <Grid item>
-                <CustSeveritySelect Severity={vulnData.Severity} setSeverity={(severity) => setVulnData(prevData => ({ ...prevData, Severity: severity }))} />
+                <CustSeveritySelect Severity={severity} setSeverity={handleSeverityChange} /> {/* Pass handleSeverityChange as prop */}
             </Grid>
-            {/* Pass onDataChange and initialContent props to CustRenderEditor */}
+            <Typography>Click on the editor below before pressing the save button to confirm your changes</Typography>
             <CustRenderEditor onDataChange={handleVulnDataChange} initialContent={vulnData.Data} />
             <Grid container xs={12} justifyContent={'flex-end'}>
                 <Button onClick={handleSaveVuln} variant='contained'>Save</Button>

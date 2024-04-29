@@ -8,16 +8,24 @@ import { Grid } from '@mui/material';
 export default function CustRenderEditor({ onDataChange, initialContent }) {
   const [editorState, setEditorState] = useState(() => {
     if (initialContent) {
-      const contentState = convertFromRaw(JSON.parse(initialContent));
-      return EditorState.createWithContent(contentState);
+      try {
+        const contentState = convertFromRaw(JSON.parse(initialContent));
+        return EditorState.createWithContent(contentState);
+      } catch (error) {
+        console.error('Error parsing initial content:', error);
+      }
     }
     return EditorState.createEmpty();
   });
 
   useEffect(() => {
     if (initialContent) {
-      const contentState = convertFromRaw(JSON.parse(initialContent));
-      setEditorState(EditorState.createWithContent(contentState));
+      try {
+        const contentState = convertFromRaw(JSON.parse(initialContent));
+        setEditorState(EditorState.createWithContent(contentState));
+      } catch (error) {
+        console.error('Error parsing initial content:', error);
+      }
     }
   }, [initialContent]);
 

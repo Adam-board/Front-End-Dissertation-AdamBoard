@@ -1,5 +1,5 @@
 import CustRenderEditor from '../Components/Editor/RenderEditor';
-import { Grid, TextField, Button } from '@mui/material';
+import { Grid, TextField, Button, Typography } from '@mui/material';
 import React, { useCallback, useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useSWR from 'swr';
@@ -9,39 +9,48 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 export default function EditorPageNote() {
     const { NoteID } = useParams();
     const navigate = useNavigate();
-    const { data, mutate } = useSWR(`/api/report/note/${NoteID}`, fetcher);
     const [headingText, setHeadingText] = useState('');
     const [descriptionText, setDescriptionText] = useState('');
+    const [editorData, setEditorData] = useState(null);
     const [modified, setModified] = useState(false);
+
+    const { data, mutate } = useSWR(`/api/report/note/${NoteID}`, fetcher);
 
     useEffect(() => {
         if (data) {
             setHeadingText(data.Note.Heading);
-            setDescriptionText(data.Note.Description); // Set default value only if descriptionText is empty
+            setDescriptionText(data.Note.Description);
+            setEditorData(data.Note); // Set editorData from fetched data
         }
     }, [data]);
 
     const handleHeadingChange = (event) => {
         setHeadingText(event.target.value);
-        setModified(true);
     };
 
     const handleDescriptionChange = (event) => {
         setDescriptionText(event.target.value);
-        setModified(true);
     };
 
+    const handleEditorDataChange = (data) => {
+        console.log("New editor data:", data);
+        setModified(true);
+        setEditorData(data);
+    };
+    
+
     const handleSaveNote = useCallback(() => {
-        // Check if changes have been made or not
         if (!modified) {
             console.log('No changes made');
-            return; // Do nothing if no changes made
+            return;
         }
+
+        console.log("Saving note data:", editorData);
 
         fetch(`/api/report/note/${NoteID}/save`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ Heading: headingText, Description: descriptionText, Data: data.Data })
+            body: JSON.stringify({ Heading: headingText, Description: descriptionText, Data: editorData})
         })
         .then(res => {
             if (res.ok) {
@@ -53,9 +62,9 @@ export default function EditorPageNote() {
             }
         })
         .catch(error => console.error('Error updating note:', error));
-    }, [NoteID, data, mutate, navigate, headingText, descriptionText, modified]);
+    }, [NoteID, editorData, modified, mutate, navigate, headingText, descriptionText]);
 
-    if (!data) return <div>Loading...</div>;
+    if (!editorData) return <div>Loading...</div>;
 
     return (
         <Grid item xs={10} sx={{ bgcolor: '#e6e6e6', border: 1, margin: 2, marginTop: 5, padding: 3 }}>
@@ -84,8 +93,8 @@ export default function EditorPageNote() {
                     sx: { fontStyle: 'italic' }
                 }}
             />
-            {/* Render the editor component */}
-            <CustRenderEditor onDataChange={(data) => {}} Data={data.Data} />
+            <Typography>Click on the editor below before pressing the save button to confirm your changes</Typography>
+            <CustRenderEditor onDataChange={handleEditorDataChange} initialContent={editorData.Data} />
             <Grid container xs={12} justifyContent={'flex-end'}>
                 <Button onClick={handleSaveNote} variant='contained'>Save</Button>
                 <Button onClick={() => navigate(-1)} variant='contained' color="error">Cancel</Button>

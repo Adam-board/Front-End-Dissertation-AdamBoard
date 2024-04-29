@@ -15,8 +15,8 @@ import CustToolBar from './Components/ToolBar/CustToolBar';
 import CustTabs from './Components/Tabs/CustTabs';
 //Import all buttons used on sidebar
 import CustSideBar from './Components/SideBar/CustSideBar';
-//Import of all ToolTip Descriptions
-import * as Desc from './Language/ToolTipDesc'
+import ExportJiraReportModal from './Components/ModalBoxes/ExportJira/ExportJiraReportModal';
+import ExportWordReportModal from './Components/ModalBoxes/ExportWord/ExportWordReportModal';
 
 function App() {  
   const [value, setValue] = React.useState(0);
@@ -26,8 +26,8 @@ function App() {
   <React.Fragment>
 <BrowserRouter>
       <CustToolBar Heading ={<Link style={{ textDecoration: 'none', color:"white" }} to="/">Report Writing Tool</Link>}>
-        <CustToolBarButtons onClick={null} arrowPlacement='bottom-end' tooltip={Desc.ExportVulnToJira}>Export Vulnerabilities To Jira</CustToolBarButtons>
-        <CustToolBarButtons onClick={null} arrowPlacement='bottom-start' tooltip={Desc.ExportReport}>Export Report (Word) </CustToolBarButtons>
+        <ExportJiraReportModal/>
+        <ExportWordReportModal/>
       </CustToolBar>
       <CustTabs onChange={handleChange} value={value}/>
 
