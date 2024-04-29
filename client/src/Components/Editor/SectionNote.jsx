@@ -1,6 +1,10 @@
 import { Grid, IconButton, Typography, Box, Link } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit'; //Edit Button
 import DeleteIcon from '@mui/icons-material/Delete'; //Remove Button
+import { EditorState, convertFromRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import 'draft-js/dist/Draft.css';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function CustSectionNote(props) {
@@ -33,6 +37,11 @@ const handleEditNote = () => {
     navigate(`/Note/${id}`);
 };
 
+
+    // Parse the JSON data and convert it to EditorState
+    const editorState = Data ? EditorState.createWithContent(convertFromRaw(JSON.parse(Data))) : EditorState.createEmpty();
+
+
     return(
 
         <Grid container
@@ -46,10 +55,15 @@ const handleEditNote = () => {
                 <Typography variant="h5" sx={{textDecoration: 'underline'}}>{Heading}</Typography>
                 <Typography variant="h7">{Description}</Typography>
 
-            {/* Text From the Editor will go within this box */}
-                <Box margin={5}>    
-                    <Typography variant="body1" marginBottom={3}>{Data}</Typography>
+             {/* Render the content with Draft.js Editor */}
+             <Box margin={5}>
+                    <Editor
+                        editorState={editorState}
+                        toolbarHidden={true} // Hide toolbar to make it read-only
+                        readOnly={true} // Make it read-only
+                    />
                 </Box>
+
 
             </Grid>
             

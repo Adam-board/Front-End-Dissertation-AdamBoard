@@ -1,12 +1,10 @@
-
-import { Grid, Input, TextField, Button} from '@mui/material';
-
+import { Grid, Input, TextField, Button } from '@mui/material';
 import React from 'react';
-import { useForm} from "react-hook-form"
+import { useForm } from "react-hook-form";
 
 export default function CustForm(props) {
-    const {heading, headingTitle, description, descriptionTitle, endpoint, refreshCustTabPanel} = props
-    const {register, handleSubmit, reset} =useForm();
+    const { heading, headingTitle, description, descriptionTitle, endpoint, refreshCustTabPanel } = props;
+    const { register, handleSubmit, reset, formState: { errors } } = useForm(); // Destructure the errors object
 
     const onSubmit = async (formData) => {
         try {
@@ -20,36 +18,33 @@ export default function CustForm(props) {
             const data = await response.json();
             console.log(data); // Log the response from the backend
             refreshCustTabPanel();
-            reset()
+            reset();
         } catch (error) {
             console.error("Error:", error);
         }
     };
 
-
-    return(
-    <Grid container
-    direction={'column'}
-    >
-        <form 
-            noValidate 
-            autoComplete='off'
-            onSubmit={handleSubmit(onSubmit)}>
+    return (
+        <Grid container direction={'column'}>
+            <form
+                noValidate
+                autoComplete='off'
+                onSubmit={handleSubmit(onSubmit)}>
                 <Grid item md={10}>
-                    <Input {...register(heading)} placeholder={headingTitle} sx={{Input : {fontWeight: 'bold'}}} margin="normal"  />
-                
+                    {/* Add the required attribute for HTML5 validation */}
+                    <Input {...register(heading, { required: true })} placeholder={headingTitle} sx={{ Input: { fontWeight: 'bold' } }} margin="normal" />
+                    {errors.heading && <span>This field is required</span>} {/* Display error message if field is empty */}
                 </Grid>
 
                 <Grid item md={5}>
-                    <TextField {...register(description)} placeholder={descriptionTitle} multiline fullWidth variant='outlined' sx={{bgcolor: 'white'}} margin="normal"/>
-                
+                    {/* Add the required attribute for HTML5 validation */}
+                    <TextField {...register(description, { required: true })} placeholder={descriptionTitle} multiline fullWidth variant='outlined' sx={{ bgcolor: 'white' }} margin="normal" />
+                    {errors.description && <span>This field is required</span>} {/* Display error message if field is empty */}
                 </Grid>
                 <Grid item>
-                    <Button type='submit' variant='contained'> Add New</Button>
+                    <Button type='submit' variant='contained'>Add New</Button>
                 </Grid>
-        </form>
-
-
-    </Grid> 
+            </form>
+        </Grid>
     )
 }

@@ -17,6 +17,8 @@
     "@testing-library/user-event": "^13.5.0",
     "cvss-v3.1-react": "^1.0.8",
     "draft-js": "^0.11.7",
+    "draftjs-to-html": "^0.9.1",
+    "html-to-draftjs": "^1.5.0",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
     "react": "^18.2.0",
