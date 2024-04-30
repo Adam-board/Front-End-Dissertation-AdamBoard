@@ -9,7 +9,6 @@ import EditorPageVuln from './Pages/EditorPageVuln';
 import EditorPage from './Pages/EditorPage';
 import EditorPageNote from './Pages/EditorPageNote';
 //Components related to the ToolBar
-import CustToolBarButtons from './Components/ToolBar/CustToolBarButtons';
 import CustToolBar from './Components/ToolBar/CustToolBar';
 //Components related to the Tabs
 import CustTabs from './Components/Tabs/CustTabs';

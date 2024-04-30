@@ -27,7 +27,7 @@ export default function ExportWordReportModal() {
     border: '2px solid #000',
     maxHeight: '80vh', // Set maximum height for modal content
     overflowY: 'auto', // Add vertical scrollbar when content exceeds maxHeight
-    backgroundColor: 'whitesmoke',
+
     boxShadow: 24,
     padding: 15
   };
