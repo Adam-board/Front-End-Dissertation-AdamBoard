@@ -1,38 +1,107 @@
 import CustRenderEditor from '../Components/Editor/RenderEditor';
+import { Grid, Button, TextField, Typography } from '@mui/material';
+import React, { useCallback, useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import useSWR from 'swr';
 
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
-import { Grid, Typography, IconButton, Button } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit'; //Edit Button
-import React from 'react';
+export default function EditorPage() {
+  const { SectionID } = useParams();
+  const navigate = useNavigate();
+  const [headingText, setHeadingText] = useState('');
+  const [descriptionText, setDescriptionText] = useState('');
+  const [editorData, setEditorData] = useState(null);
+  const [modified, setModified] = useState(false);
+  
+  const { data, mutate } = useSWR(`/api/report/section/${SectionID}`, fetcher);
 
-export default function EditorPage(props) {
-const {} = props
+  useEffect(() => {
+    if (data) {
+      setHeadingText(data.Section.Heading);
+      setDescriptionText(data.Section.Description);
+      setEditorData(data.Section);
+    }
+  }, [data]);
 
-return(
+  const handleHeadingChange = (event) => {
+    setHeadingText(event.target.value);
+  };
 
+  const handleDescriptionChange = (event) => {
+    setDescriptionText(event.target.value);
+  };
 
-<Grid item xs={10}
-    sx={{bgcolor: '#e6e6e6', border:1, margin: 2, marginTop: 5, padding: 3}}>
+  const handleEditorDataChange = (data) => {
+    console.log("New editor data:", data);
+    setModified(true);
+    setEditorData(data);
+  };
 
+  const handleSaveSection = useCallback(() => {
+    if (!modified) {
+      console.log('No changes made');
+      return;
+    }
 
+    console.log("Saving section data:", editorData);
 
-    <Grid container direction={'row'}>
-        <Typography variant="h4" sx={{textDecoration: 'underline', fontWeight: "bold"}}>Executive Summary</Typography> 
-        <IconButton color='info' ><EditIcon /></IconButton>
+    fetch(`/api/report/section/${SectionID}/save`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ Heading: headingText, Description: descriptionText, Data: editorData }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          console.log('Section updated successfully');
+          mutate();
+          navigate(-1);
+        } else {
+          throw new Error('Failed to update section');
+        }
+      })
+      .catch((error) => console.error('Error updating section:', error));
+  }, [SectionID, modified, mutate, navigate, headingText, descriptionText, editorData]);
+
+  if (!editorData) return <div>Loading...</div>;
+
+  return (
+    <Grid item xs={10} sx={{ bgcolor: '#e6e6e6', border: 1, margin: 2, marginTop: 5, padding: 3 }}>
+      <Grid container direction={'row'} alignItems="center" spacing={2}>
+        <TextField
+          label="Heading"
+          fullWidth
+          variant="outlined"
+          value={headingText}
+          onChange={handleHeadingChange}
+          InputProps={{
+            readOnly: false,
+            sx: { fontWeight: 'bold' },
+          }}
+        />
+      </Grid>
+      <TextField
+        label="Description"
+        fullWidth
+        multiline
+        variant="outlined"
+        value={descriptionText}
+        onChange={handleDescriptionChange}
+        InputProps={{
+          readOnly: false,
+          sx: { fontStyle: 'italic' },
+        }}
+      />
+      <Typography>Click on the editor below before pressing the save button to confirm your changes</Typography>
+      <CustRenderEditor onDataChange={handleEditorDataChange} initialContent={editorData.Data} />
+      <Grid container xs={12} justifyContent={'flex-end'}>
+        <Button onClick={handleSaveSection} variant="contained">
+          Save
+        </Button>
+        <Button onClick={() => navigate(-1)} variant="contained" color="error">
+          Cancel
+        </Button>
+      </Grid>
     </Grid>
-        <Typography variant="h5">This section provides a brief overview of the entire report's findings from the penetration test. The language in this section should be aimed towards non-technical users </Typography> 
-    
-       <CustRenderEditor />
-
-       <Grid container xs={12} justifyContent={'flex-end'}>
-        <Button onClick={null} variant='contained'>Save</Button>
-        <Button onClick={null} variant='contained' color="error">Cancel</Button>
-        </Grid>
-    </Grid>
-
-
-)
-
-
-
+  );
 }
