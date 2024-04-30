@@ -17,9 +17,22 @@ export default function ReportSelectionWord({handleModalClose}) {
   };
 
   const handleExportReport = () => {
-    handleModalClose()
-    
-  };
+    const body = {}
+    body.ReportId = selectedReport
+  fetch(
+    `/api/report/exportword`, 
+    {
+      method: "POST", 
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    }).then(res => res.json()).then(res =>{
+      handleModalClose()
+    })
+};
+
+
 
   if (isLoading) return <CircularProgress />
  

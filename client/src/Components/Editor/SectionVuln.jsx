@@ -83,7 +83,7 @@ export default function CustSectionVuln(props) {
 
                 {/* Render the content with Draft.js Editor */}
                 <Box margin={5}>
-                    <Editor
+                    <Editor 
                         editorState={editorState}
                         toolbarHidden={true} // Hide toolbar to make it read-only
                         readOnly={true} // Make it read-only
