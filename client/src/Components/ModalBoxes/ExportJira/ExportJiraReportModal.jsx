@@ -40,7 +40,7 @@ export default function ExportJiraReportModal() {
         onClose={handleClose}
        >
         <div style={modalStyle}>
-          <Typography variant="h4">{"Chhose a report To export the vulnerabilities from:"}</Typography>
+          <Typography variant="h4">{"Choose a report To export the vulnerabilities from:"}</Typography>
           <ReportSelectionJira handleModalClose={handleClose}/>
         </div>
       </Modal>
